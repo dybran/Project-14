@@ -1,6 +1,6 @@
 ## __CONTINUOUS INTEGRATION WITH JENKINS | ANSIBLE | ARTIFACTORY | SONARQUBE | PHP__ ##
 
-To emphasize a typical CI Pipeline further, let us explore the diagram below a little deeper.
+To emphasize a typical CI Pipeline further, let us explore the diagram below.
 
 ![image](./images/qw.PNG)
 
