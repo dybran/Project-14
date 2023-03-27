@@ -54,7 +54,8 @@ To setup our jenkins and clone the __ansible-config-mgt__ repository from our gi
 
 ![image](./images/jenkins-install1.PNG)
 
-then added the bash script below
+add the bash script below
+
 ```
 #!/bin/bash
 
