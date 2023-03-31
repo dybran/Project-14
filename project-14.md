@@ -1050,6 +1050,7 @@ Refer to [Project-11](https://github.com/dybran/Project-11/blob/main/project-11.
 
 __N/B:__
 - Make sure to edit all inbound rules on the various servers.
+- all the scripts/configurations for this project can be found in the __[ansible_config mgt](https://github.com/dybran/ansible-config-mgt)__.
 
 
 
