@@ -1,0 +1,35 @@
+---
+# tasks file for artifactory
+
+- name: install java 11
+  yum:
+    name: java-11-openjdk-devel
+    state: present
+
+- name: Download/fetch repo from the url
+  get_url:
+    url:  https://releases.jfrog.io/artifactory/artifactory-rpms/artifactory-rpms.repo 
+    dest: /home/ec2-user/jfrog-artifactory-rpms.repo
+    mode: '0755'
+ 
+- name: Copy the downloaded file to the etc repo
+  copy:
+    src: /home/ec2-user/jfrog-artifactory-rpms.repo
+    dest: /etc/yum.repos.d/jfrog-artifactory-rpms.repo
+    remote_src: yes
+    follow: yes
+
+- name: update cache
+  yum:
+    update_cache: yes
+
+- name: install artifactory
+  yum:
+    name: jfrog-artifactory-oss
+    state: present
+
+- name: start and enable artifactory
+  service:
+    name: artifactory
+    state: started
+    enabled: yes

@@ -1,0 +1,42 @@
+---
+# - name: Include dynamic variables
+#   hosts: wbsrvrs
+#   tasks:
+# - import_playbook: ../static-assignments/common.yml 
+#   include: ../dynamic-assignments/env-vars.yml
+#   tags:
+#     - always
+# - name: webserver configurations
+#   hosts: all
+# - name: Webserver assignment
+#   import_playbook: ../static-assignments/webservers.yml
+
+# - name: Loadbalancers assignment
+#   hosts: lb
+# - import_playbook: ../static-assignments/loadbalancers.yml
+#   when: load_balancer_is_required 
+
+# - name: installing nginx
+#   hosts: nginx
+# - name: nginx assignment
+#   import_playbook: ../static-assignments/nginx.yml
+
+# - name: installing database
+#   hosts: db
+# - name: db assignment
+#   import_playbook: ../static-assignments/db.yml
+
+# - name: installing artifactory
+#   hosts: artifactory
+# - name: Artifactory assignment
+#   import_playbook: ../static-assignments/artifactory.yml
+
+# - name: Deploying Todo Application
+#   hosts: todo
+# - name: Deploy assignment
+#   import_playbook: ../static-assignments/deployment.yml
+
+- name: Installing Sonarqube
+  hosts: todo
+- name: Sonarqube assignment
+  import_playbook: ../static-assignments/sonarqube.yml

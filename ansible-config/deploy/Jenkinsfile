@@ -1,0 +1,54 @@
+pipeline {
+
+   agent any
+
+   environment {
+    ANSIBLE_CONFIG='${WORKSPACE}/deploy/ansible.cfg'
+   }
+
+  parameters {
+      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configuration')
+  }
+
+   stages {
+
+    stage('Initial Clean Up') {
+      steps {
+        dir('${WORKSPACE}') {
+         deleteDir()
+        }
+
+      }
+    }
+
+    stage('Checkout SCM') {
+      steps {
+        git branch: 'main', url: 'https://github.com/dybran/ansible-config-mgt.git'
+      }
+    }
+
+    stage('Setting Roles Path in the Ansible.cfg File') {
+
+      steps {
+        sh 'echo ${WORKSPACE}'
+        sh 'sed -i "3 a roles_path=${WORKSPACE}/roles" ${WORKSPACE}/deploy/ansible.cfg'
+      }
+    }
+
+    stage('Run Ansible Playbook') {
+
+      steps {
+        ansiblePlaybook colorized: true, credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory/${inventory}', playbook: 'playbooks/site.yml'
+
+      }
+    }
+
+    stage('Clean Up') {
+      steps {
+         cleanWs(cleanWhenAborted: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, cleanWhenFailure: true)
+      }
+
+    }
+     
+   }
+}

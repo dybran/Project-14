@@ -1,0 +1,79 @@
+---
+- name: Deploying the PHP Application to Dev Enviroment
+  hosts: todo
+
+  tasks:
+    - name: Install Remi and RHEL repo
+      yum:
+        name: 
+          - https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+          - dnf-utils
+          - http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+        disable_gpg_check: yes
+
+    
+    - name: Install httpd on the webserver
+      yum:
+        name: httpd
+        state: present
+
+    - name: Ensure httpd is started and enabled
+      service:
+        name: httpd
+        state: started 
+        enabled: yes
+      
+    - name: Install PHP
+      yum:
+        name:
+          - php 
+          - php-mysqlnd
+          - php-gd 
+          - php-curl
+          - unzip
+          - php-common
+          - php-mbstring
+          - php-opcache
+          - php-intl
+          - php-xml
+          - php-fpm
+          - php-json
+        enablerepo: php:remi-7.4
+        state: present
+    
+    - name: Ensure php-fpm is started and enabled
+      service:
+        name: php-fpm
+        state: started 
+        enabled: yes
+
+    - name: Download the artifact
+      get_url:
+        url: http://34.238.114.15:8082/artifactory/dybran/php-todo
+        dest: /home/ec2-user/
+        url_username: admin
+        url_password: cmVmdGtuOjAxOjE3MTEyMjQ3ODA6aWtCcE5XaFJRaWRJbkYzZU1xMGt0eU1sT3pO
+
+
+    - name: Unzip the Artifacts
+      unarchive:
+       src: /home/ec2-user/php-todo
+       dest: /home/ec2-user/
+       remote_src: yes
+
+    - name: Deploy the Code
+      copy:
+        src: /home/ec2-user/var/lib/jenkins/workspace/php-todo_main/
+        dest: /var/www/
+        force: yes
+        remote_src: yes
+
+    - name: Remove default page
+      file:
+        path: /etc/httpd/conf.d/welcome.conf
+        state: absent
+
+    - name: Restart httpd
+      service:
+        name: httpd
+        state: restarted
