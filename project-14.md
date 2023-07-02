@@ -388,7 +388,7 @@ pipeline {
 }
 ```
 
-Then in the__inventory/dev__ file, we update the IP address for our __database__ and __nginx__.
+Then in the __inventory/dev__ file, we update the IP address for our __database__ and __nginx__.
 
 ```
 nginx ansible_host=<Private-IP-address> ansible_ssh_user=<ec2-user>
