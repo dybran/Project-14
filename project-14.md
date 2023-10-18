@@ -1020,7 +1020,7 @@ The complete stage will now look like this:
 ```
 ![image](./images/newsonarqube-stage.PNG)
 
-Only branches other than __develop, hotfix, release or main__ will be able to deploy the code.
+Only __develop, hotfix, release or main__ branches will be able to deploy the code.
 
 The blue ocean display looks like this:
 
